@@ -8,3 +8,13 @@ C:\Users\ferre\source\repos\SpeechApp\SpeechApp\obj\Debug\SpeechApp.csproj.CoreC
 C:\Users\ferre\source\repos\SpeechApp\SpeechApp\obj\Debug\SpeechApp.exe
 C:\Users\ferre\source\repos\SpeechApp\SpeechApp\obj\Debug\SpeechApp.pdb
 C:\Users\ferre\source\repos\SpeechApp\SpeechApp\obj\Debug\SpeechApp.csprojAssemblyReference.cache
+C:\xampp\htdocs\OwnProyects\SpeechApp\SpeechApp\bin\Debug\SpeechApp.exe.config
+C:\xampp\htdocs\OwnProyects\SpeechApp\SpeechApp\bin\Debug\SpeechApp.exe
+C:\xampp\htdocs\OwnProyects\SpeechApp\SpeechApp\bin\Debug\SpeechApp.pdb
+C:\xampp\htdocs\OwnProyects\SpeechApp\SpeechApp\obj\Debug\SpeechApp.csprojAssemblyReference.cache
+C:\xampp\htdocs\OwnProyects\SpeechApp\SpeechApp\obj\Debug\SpeechApp.Form1.resources
+C:\xampp\htdocs\OwnProyects\SpeechApp\SpeechApp\obj\Debug\SpeechApp.Properties.Resources.resources
+C:\xampp\htdocs\OwnProyects\SpeechApp\SpeechApp\obj\Debug\SpeechApp.csproj.GenerateResource.cache
+C:\xampp\htdocs\OwnProyects\SpeechApp\SpeechApp\obj\Debug\SpeechApp.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\OwnProyects\SpeechApp\SpeechApp\obj\Debug\SpeechApp.exe
+C:\xampp\htdocs\OwnProyects\SpeechApp\SpeechApp\obj\Debug\SpeechApp.pdb

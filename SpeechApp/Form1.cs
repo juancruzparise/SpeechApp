@@ -33,6 +33,14 @@ namespace SpeechApp
         private void Default_SpeechRecognizer(object sender, SpeechRecognizedEventArgs e)
         {
             string speech = e.Result.Text;
+            if (speech == "Browser" || speech == "browser")
+            {
+                System.Diagnostics.Process.Start("chrome.exe");
+            }
+            if (speech == "Carpeta de fotos" || speech == "carpeta de fotos")
+            {
+               System.Diagnostics.Process.Start(@"C:\Users\JuanC\Desktop\Carpeta_test");
+            }
             this.lblTexto.Text = speech;
         }
 
