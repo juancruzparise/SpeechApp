@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Speech.Recognition;
-using System.Speech.Synthesis;
-using System.IO;
+using System.Data.OleDb;
+
 
 namespace SpeechApp
 {
@@ -19,12 +12,14 @@ namespace SpeechApp
 
         int RecTimeOut = 0;
         bool escuchando = false;
+        string userName = Environment.UserName;
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        //Cuando empieza a escuchar setea el temporizador en 0
         private void reconocedor_SpeechRecognized(object sender, SpeechDetectedEventArgs e)
         {
             RecTimeOut = 0;
@@ -32,18 +27,55 @@ namespace SpeechApp
 
         private void Default_SpeechRecognizer(object sender, SpeechRecognizedEventArgs e)
         {
-            string speech = e.Result.Text;
-            if (speech == "Browser" || speech == "browser")
+            lblTexto.Text = "Usted quiso decir esto?: " + e.Result.Text;
+            string speech = e.Result.Text.ToLower();
+
+            if (speech.Contains("buscar"))
             {
-                System.Diagnostics.Process.Start("chrome.exe");
+                string palabraClave = speech.Replace("buscar", "");
+                buscar(palabraClave);
             }
-            if (speech == "Carpeta de fotos" || speech == "carpeta de fotos")
+
+            if (speech.Contains("abrir"))
             {
-               System.Diagnostics.Process.Start(@"C:\Users\JuanC\Desktop\Carpeta_test");
+                string palabraClaveEspaciada = speech.Replace("abrir", "");
+                string palabraClave = palabraClaveEspaciada.Replace(" ", "");
+                abrir(palabraClave);              
             }
-            this.lblTexto.Text = speech;
         }
 
+        private void abrir(string palabraClave)
+        {
+            //Utilizamos la API de OleDB que se indexa al sitema operativo y nos permite realizar consultas SQL sobre la tabla SystemIndex
+            var connection = new OleDbConnection(@"Provider=Search.CollatorDSO;Extended Properties=""Application=Windows""");
+
+            //Creo la consulta limitando el tipo de item que busco y donde se ubica
+            var query = @"SELECT TOP 1 System.ItemUrl FROM SystemIndex " +
+             @"WHERE scope = 'file:C:/Users/" + userName + "' AND System.ItemType = 'Directory' AND System.Itemname LIKE '%" + palabraClave + "%' ";
+
+            connection.Open();
+
+            var command = new OleDbCommand(query, connection);
+
+            using (var r = command.ExecuteReader())
+            {
+                while (r.Read())
+                {
+                    System.Diagnostics.Process.Start(@"" + r[0]);
+                }
+            }
+
+            connection.Close();
+        }
+
+        private void buscar(string palabraClave)
+        {
+            Console.WriteLine(palabraClave);
+            string url = "https://www.google.com/search?q=" + palabraClave;
+            System.Diagnostics.Process.Start(url);
+        }
+
+        //Limita el tiempo de escucha a 10 segundos
         private void TmrSpeaking_Tick(object sender, EventArgs e)
         {
             if (RecTimeOut == 10)
@@ -57,6 +89,7 @@ namespace SpeechApp
             }
         }
 
+        //Activa y desactiva la escucha manualmente
         private void btnSwitch_Click(object sender, EventArgs e)
         {
             if (!escuchando)
@@ -77,11 +110,14 @@ namespace SpeechApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //Define el microfono default como dispositivo de escucha
             reconocedor.SetInputToDefaultAudioDevice();
+            //Le digo que palabras debe reconocer
             reconocedor.LoadGrammarAsync(new DictationGrammar());
+            //Funcion por default mientras escucha
             reconocedor.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(Default_SpeechRecognizer);
+            //Funcion cuando empieza a escuchar
             reconocedor.SpeechDetected += new EventHandler<SpeechDetectedEventArgs>(reconocedor_SpeechRecognized);
-            //reconocedor.RecognizeAsync(RecognizeMode.Multiple);
         }
     }
 }
