@@ -82,7 +82,7 @@ namespace SpeechApp
             {
                 reconocedor.RecognizeAsyncCancel();
             }
-            else if (RecTimeOut == 10)
+            else if (RecTimeOut == 11)
             {
                 TmrSpeaking.Stop();
                 RecTimeOut = 0;
